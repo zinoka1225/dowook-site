@@ -648,7 +648,7 @@ face.addEventListener('click', () => {
 
 /* =========================================================
    편집 모드
-   - 첫 화면 얼굴을 꾹(1.2초) 누르면 화면에는 아무 변화 없이 보이지 않는 입력을 받는다.
+   - 첫 화면 얼굴을 꾹(3초) 누르면 화면에는 아무 변화 없이 보이지 않는 입력을 받는다.
    - 비밀번호를 치고 Enter → 이 기기에 저장해 둔 GitHub 열쇠가 풀리면 편집 모드.
    - 열쇠는 사이트(저장소)에 없다. #editor-setup 에서 기기마다 한 번 넣으면
      이 브라우저 안에만 비밀번호로 잠겨(PBKDF2 + AES-GCM) 저장된다.
@@ -658,7 +658,7 @@ const Editor = (() => {
   const REPO = { owner: 'zinoka1225', repo: 'dowook-site', path: 'content/data.js', branch: 'main' };
   const API = `https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}`;
   const STORE = 'dowook-editor-v1';
-  const HOLD = 1200;              // 꾹 누르는 시간(ms)
+  const HOLD = 3000;              // 꾹 누르는 시간(ms) — 3초
   const HEADER = '/* 사이트에 들어가는 모든 글과 작업 목록. 이 파일이 원본이다.\n   웹의 편집 모드에서 저장하면 이 파일이 바뀐다. */\n';
 
   let token = null, editing = false, dirty = false, original = JSON.stringify(SITE);
