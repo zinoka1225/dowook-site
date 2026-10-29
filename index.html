@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>도욱</title>
+<meta name="description" content="디자인, 교육, 노래. 김도욱의 작업을 기록하고 소개하는 공간.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap">
+<link rel="preload" href="assets/fonts/Interop-Medium-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 로고는 한 번만 정의하고 <use href="#logo">로 불러 쓴다 -->
+<svg class="sprite" aria-hidden="true">
+  <defs>
+    <clipPath id="logo-clip"><rect x="591" y="291" width="2319" height="1832"/></clipPath>
+  </defs>
+  <!-- 큰 로고: Noto Sans KR Light -->
+  <symbol id="logo" viewBox="0 0 3415 2519">
+    <rect width="3415" height="2519" fill="#000"/>
+    <rect x="591" y="291" width="2319" height="1832" fill="#fff"/>
+    <path clip-path="url(#logo-clip)" fill="#000" d="M821.7 1044.1H1674V1107.7H821.7ZM669 1465.3H1812.6V1530.4H669ZM1200.5 1069.6H1275.4V1497.8H1200.5ZM821.7 548H1659.9V613H896.6V1072.4H821.7Z M2502.4 1096.4H2575.9V1329.6H2502.4ZM1969.5 1063.9H3107.3V1127.5H1969.5ZM2096.7 1300H2964.6V1698.6H2889.7V1363.6H2096.7ZM2537.7 470.2Q2673.4 470.2 2770.2 499.2Q2867 528.2 2920.7 581.2Q2974.5 634.2 2974.5 710.5Q2974.5 785.4 2920.7 838.4Q2867 891.4 2770.2 919.7Q2673.4 948 2537.7 948Q2404.8 948 2307.3 919.7Q2209.8 891.4 2156 838.4Q2102.3 785.4 2102.3 710.5Q2102.3 634.2 2156 581.2Q2209.8 528.2 2307.3 499.2Q2404.8 470.2 2537.7 470.2ZM2537.7 533.8Q2430.3 533.8 2349.7 555Q2269.1 576.2 2224.6 615.8Q2180.1 655.4 2180.1 710.5Q2180.1 764.2 2224.6 803.8Q2269.1 843.4 2349.7 864.6Q2430.3 885.8 2537.7 885.8Q2646.5 885.8 2727.1 864.6Q2807.7 843.4 2852.2 803.8Q2896.7 764.2 2896.7 710.5Q2896.7 655.4 2852.2 615.8Q2807.7 576.2 2727.1 555Q2646.5 533.8 2537.7 533.8Z"/>
+  </symbol>
+  <!-- 작은 로고(하위 페이지 왼쪽 위·크레딧): 메인 로고(Light)와 같은 글자에, 작게 줄었을 때 너무 가늘어 보이지 않도록 획을 아주 조금(12) 더했다 -->
+  <symbol id="logo-small" viewBox="0 0 3415 2519">
+    <rect width="3415" height="2519" fill="#000"/>
+    <rect x="591" y="291" width="2319" height="1832" fill="#fff"/>
+    <path clip-path="url(#logo-clip)" fill="#000" stroke="#000" stroke-width="12" d="M821.7 1044.1H1674V1107.7H821.7ZM669 1465.3H1812.6V1530.4H669ZM1200.5 1069.6H1275.4V1497.8H1200.5ZM821.7 548H1659.9V613H896.6V1072.4H821.7Z M2502.4 1096.4H2575.9V1329.6H2502.4ZM1969.5 1063.9H3107.3V1127.5H1969.5ZM2096.7 1300H2964.6V1698.6H2889.7V1363.6H2096.7ZM2537.7 470.2Q2673.4 470.2 2770.2 499.2Q2867 528.2 2920.7 581.2Q2974.5 634.2 2974.5 710.5Q2974.5 785.4 2920.7 838.4Q2867 891.4 2770.2 919.7Q2673.4 948 2537.7 948Q2404.8 948 2307.3 919.7Q2209.8 891.4 2156 838.4Q2102.3 785.4 2102.3 710.5Q2102.3 634.2 2156 581.2Q2209.8 528.2 2307.3 499.2Q2404.8 470.2 2537.7 470.2ZM2537.7 533.8Q2430.3 533.8 2349.7 555Q2269.1 576.2 2224.6 615.8Q2180.1 655.4 2180.1 710.5Q2180.1 764.2 2224.6 803.8Q2269.1 843.4 2349.7 864.6Q2430.3 885.8 2537.7 885.8Q2646.5 885.8 2727.1 864.6Q2807.7 843.4 2852.2 803.8Q2896.7 764.2 2896.7 710.5Q2896.7 655.4 2852.2 615.8Q2807.7 576.2 2727.1 555Q2646.5 533.8 2537.7 533.8Z"/>
+  </symbol>
+</svg>
+
+<main>
+  <!-- 첫 화면 · 디자인 · 교육 · 노래: 한 화면을 같이 쓰고 data-mode만 바뀐다 -->
+  <section class="view view--hero" data-view="hero" id="hero" data-mode="home" aria-label="첫 화면">
+    <div class="board">
+      <div class="screen">
+        <div class="frame">
+          <h1 class="v v40 at hero-ko" id="hero-ko"></h1>
+          <p class="h en t30 at hero-en" id="hero-en"></p>
+
+          <a class="nav nav-design" href="#design"><span class="v v40">디자인</span><span class="en t30">design</span></a>
+          <a class="nav nav-education" href="#education"><span class="v v40">교육</span><span class="en t30">educate</span></a>
+          <a class="nav nav-singing" href="#singing"><span class="v v40">노래</span><span class="en t30">sing</span></a>
+          <a class="pin" id="pin" href="#home" aria-label="처음으로"><svg class="logo-mark" aria-hidden="true"><use href="#logo"/></svg></a>
+
+          <!-- 얼굴: 대지 (960, 420)을 원점으로 둔 좌표. 귀는 노래를 듣는 동안만 보인다 -->
+          <svg class="face" id="hm-face" viewBox="0 0 560 490" aria-hidden="true">
+          <path d="M22.3,90.9C22.3,90.9 71.4,31.2 166.7,53.1C166.7,53.1 198.0,63.6 203.9,69.6"/>
+          <path d="M346.6,71.6C346.6,71.6 420.5,18.4 508.1,62.8"/>
+          <path d="M297.3,136.2C297.3,136.2 307.1,213.1 349.9,232.3C392.7,251.6 362.1,301.7 341.8,296.9"/>
+          <path d="M284.6,294.3C297.0,298.5 303.5,302.6 310.0,298.5"/>
+          <path d="M278.6,383.3C278.6,383.3 292.8,371.3 298.7,388.8"/>
+          <path d="M251.6,426.4C251.6,426.4 261.2,418.0 276.2,417.9C291.1,417.7 288.3,426.0 291.9,424.5C295.5,422.9 302.0,415.8 310.1,419.1C318.1,422.3 319.1,424.5 319.1,424.5"/>
+          <path d="M276.0,461.8C276.0,461.8 278.0,473.3 289.2,471.4C300.3,469.5 305.9,466.7 305.9,466.7"/>
+            <circle id="hm-eye-l" cx="163.3" cy="92.3" r="13"/>
+            <circle id="hm-eye-r" cx="471.9" cy="94.3" r="13"/>
+            <g class="ear" id="ear-head">
+          <path d="M-81.5,159.7C-81.5,159.7 -88.8,119.3 -110.5,114.5C-129.3,110.4 -159.7,113.2 -168.4,139.0C-178.8,169.5 -169.1,214.1 -147.4,215.6C-135.5,216.4 -137.7,225.9 -133.0,236.0C-128.2,246.0 -122.4,258.2 -99.5,250.7C-75.0,242.8 -86.1,226.1 -71.7,214.5"/>
+          <path d="M-154.6,167.0C-154.6,167.0 -147.3,138.2 -140.2,138.6C-131.5,139.2 -93.7,165.2 -103.3,175.3C-110.2,182.7 -123.2,200.0 -104.6,201.2C-98.7,201.6 -86.4,197.9 -85.1,208.0C-83.7,218.7 -94.4,226.8 -108.1,221.8C-121.7,216.9 -129.0,187.4 -122.8,171.6"/>
+            </g>
+          </svg>
+
+          <a class="more" href="#about">
+            <span class="v v40">김도욱</span>
+            <span class="en t30">More about<br>Dowook Kim</span>
+          </a>
+          <hr class="rule">
+        </div>
+      </div>
+      <div class="list" id="list"></div>
+    </div>
+  </section>
+
+  <!-- 나에 대해서: 두 화면. 뒤로는 고정 -->
+  <section class="view view--about" data-view="about" aria-label="나에 대해서" hidden>
+    <div class="board">
+      <div class="screen"><div class="frame" id="about-1"></div></div>
+      <div class="screen"><div class="frame" id="about-2"></div></div>
+    </div>
+  </section>
+
+  <!-- 작업 · 수업 하나: 첫 화면은 소개, 내려가면 이미지 -->
+  <section class="view view--detail" data-view="detail" aria-label="자세히" hidden>
+    <div class="board">
+      <div class="screen"><div class="frame" id="detail-1"></div></div>
+      <div class="pages" id="detail-2"></div>
+    </div>
+  </section>
+
+  <!-- 불안 (이스터에그: 첫 화면 얼굴을 빠르게 5번 누르면 열린다) -->
+  <section class="view view--anxiety" data-view="anxiety" hidden>
+    <div class="anxiety-hero">
+      <div class="anxiety">
+        <h1 class="page-title"><span>불안</span><span>anxiety</span></h1>
+        <a class="logo-link" href="#home" aria-label="처음으로"><svg class="logo-mark" aria-hidden="true"><use href="#logo"/></svg></a>
+        <p data-edit="intro.anxiety"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 화면에 고정되는 글자: 세로 제목 · 영문 제목 · 뒤로 -->
+<div class="fix" id="fix" hidden>
+  <div class="board">
+    <div class="frame">
+      <p class="v v40 at fix-title" id="fix-title"></p>
+      <p class="en t28 at fix-en" id="fix-en"></p>
+      <a class="back" id="fix-back" href="#home"><span class="v v40">뒤로</span><span class="en t30">Back to Main</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- 줄 귀(노래 목록에서 재생 중인 줄에 뜬다) -->
+<template id="ear-row-tpl">
+  <svg class="ear-row" viewBox="0 0 125.7 180.1" aria-hidden="true">
+          <path d="M9.3,64.6C9.3,64.6 14.9,16.0 39.9,8.5C61.5,2.0 97.2,2.8 109.4,32.7C123.7,68.0 115.8,121.8 90.5,125.4C76.7,127.3 79.9,138.5 75.2,150.8C70.4,163.1 64.5,178.1 37.2,171.1C8.0,163.7 19.7,143.0 2.0,130.4"/>
+          <path d="M95.2,67.1C95.2,67.1 84.6,33.5 76.4,34.7C66.3,36.1 24.1,70.0 35.9,81.2C44.7,89.4 61.0,108.9 39.5,111.9C32.6,112.9 18.0,109.5 17.2,121.6C16.3,134.4 29.5,143.2 45.1,136.1C60.6,129.1 66.9,93.5 58.5,75.2"/>
+  </svg>
+</template>
+
+<!-- 로고 커서 (첫 화면) -->
+<div class="cursor" id="hm-cursor" aria-hidden="true"><svg class="logo-mark"><use href="#logo"/></svg></div>
+
+<script src="content/data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
