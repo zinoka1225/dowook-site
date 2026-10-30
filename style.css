@@ -158,7 +158,8 @@ img { display: block; max-width: 100%; height: auto; }
 .row-thumb img { width: 100%; height: auto; background: #e4e4e4; }
 .row-go { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; }
 .row-go .v, .song-go .v { margin-right: calc(-7 * var(--p)); }
-.row-go .en { margin-bottom: calc(-14.1 * var(--p)); font-weight: 400; }   /* 목록에서는 영문 제목만 Medium으로 강조 */
+.list .en { font-weight: 400; }   /* 목록(디자인 · 교육 · 노래)의 영문은 모두 Regular: 영문 제목 · 날짜 · 가수 · with · view · Listen */
+.row-go .en { margin-bottom: calc(-14.1 * var(--p)); }
 
 /* 노래: 가수 한글 이름은 제목과 같은 줄, 영문 이름은 세로 제목 끝에 맞춘다(제목이 길수록 간격이 벌어짐) */
 .song-head { grid-column: 1 / span 2; display: grid; grid-template-columns: calc(136 * var(--p)) calc(194 * var(--p)); }
