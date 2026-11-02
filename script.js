@@ -586,7 +586,7 @@ document.querySelectorAll('[data-edit^="intro."]').forEach((el) => {
    - content/data.js 의 "news": [{ id: "2026-11", src: "2026-11.png", alt: "글 전체" }]
      이미지는 assets/news/ 에. id(연-월) 순서로 정렬해서 마지막이 이달의 소식지.
    - 소식지는 한 사람(한 브라우저)이 한 번만 펼쳐 볼 수 있다. 펼친 뒤 화면을 눌러 닫으면 '읽음'.
-   - 첫 화면 쪽지: 안 읽었으면 누르면 펼쳐진다. 읽은 뒤에는 소식지가 둘 이상일 때만 보관함(#news)으로.
+   - 첫 화면 쪽지: 안 읽었으면 누르면 펼쳐진다. 읽고 나면 쪽지도 사라진다.
    - 보관함: 한 해 한 화면, 맨 위가 가장 최근 해. 안 읽은 달만 눌러서 펼칠 수 있다.
    - 펼친 소식지는 브라우저 뒤로 가기로 닫히지 않는다. 화면 아무 데나 눌러야 닫힌다.
    ========================================================= */
@@ -666,18 +666,13 @@ const News = (() => {
     const host = $('#news-note');
     const list = all();
     const n = list.at(-1);
-    host.hidden = !n;
-    if (!n) { host.innerHTML = ''; return; }
+    // 한 번 읽은 소식지는 첫 화면에서 쪽지까지 사라진다(없었던 것처럼)
+    host.hidden = !n || isRead(n);
+    if (host.hidden) { host.innerHTML = ''; return; }
     const inner = `${paperOf(n)}<span class="m">${label(n)}</span>`;
-    if (!isRead(n)) {
-      host.innerHTML = `<button class="news-hit" type="button" aria-label="월간 소식지 ${label(n)} 펼치기">${inner}</button>`;
-      host.querySelector('button').addEventListener('click', () => open(n));
-      const pre = new Image(); pre.src = src(n);      // 누르자마자 보이게 미리 받아 둔다
-    } else if (list.length > 1) {
-      host.innerHTML = `<a class="news-hit" href="#news" aria-label="지난 소식지 보관함">${inner}</a>`;
-    } else {
-      host.innerHTML = `<div class="news-hit" aria-label="월간 소식지 ${label(n)} (이미 읽음)">${inner}</div>`;
-    }
+    host.innerHTML = `<button class="news-hit" type="button" aria-label="월간 소식지 ${label(n)} 펼치기">${inner}</button>`;
+    host.querySelector('button').addEventListener('click', () => open(n));
+    const pre = new Image(); pre.src = src(n);        // 누르자마자 보이게 미리 받아 둔다
   }
 
   /* 보관함 */
