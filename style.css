@@ -245,6 +245,33 @@ body.is-editing .media figcaption:empty::before { content: "이미지 설명"; }
 .back .v { margin-right: calc(-18.5 * var(--p)); }
 .back .en { margin-top: calc(32.08 * var(--p)); white-space: nowrap; }
 
+/* ---------- 소식지 ----------
+   쪽지: 손으로 그린 종이(144 × 150) 가운데 'N월'(한글 40). 첫 화면에서는 김도욱 위, 오른쪽 끝선 1820에 맞춤
+   보관함: 한 해 한 화면. 연도는 왼쪽 148, 쪽지는 7칸 × 2줄(가로 295부터 215 간격, 세로 140부터 271 간격) */
+.paper { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.paper path { fill: #fff; stroke: var(--fg); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
+.news-note, .news-tile { position: absolute; width: calc(144 * var(--p)); height: calc(150 * var(--p)); }
+.news-note { left: calc(1677 * var(--p)); top: calc(393 * var(--p)); }
+.view--hero:not([data-mode="home"]) .news-note { display: none; }
+.news-hit { position: absolute; inset: 0; display: grid; place-items: center; -webkit-tap-highlight-color: transparent; }
+.news-hit .m { position: relative; font-size: calc(40 * var(--p)); line-height: 1; white-space: nowrap; transform: translateY(-.04em); }
+a.news-hit, button.news-hit { cursor: pointer; }
+.news-tile { left: calc(var(--x) * var(--p)); top: calc(var(--y) * var(--p)); }
+.news-year { --x: 148; --y: 224; }
+.t40 { --fs: 40; --lh: 50; font-size: calc(40 * var(--p)); line-height: calc(50 * var(--p)); }
+.view--news .screen { scroll-snap-align: start; }
+
+.news-open {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+  background: rgba(241, 241, 241, .94); cursor: pointer; outline: none;
+  opacity: 0; transition: opacity .35s ease;
+  -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none;
+}
+.news-open.is-on { opacity: 1; }
+.news-open img { width: auto; height: auto; max-width: 92vw; max-height: 92vh; max-height: 92dvh; -webkit-user-drag: none; }
+body.hm-on .news-open { cursor: none; }   /* 첫 화면에서는 로고 커서가 그대로 */
+html.news-lock, html.news-lock body { overflow: hidden; }
+
 /* ---------- 로고 커서 ---------- */
 .cursor { position: fixed; left: 0; top: 0; z-index: 100; width: var(--cw, 40px); pointer-events: none; opacity: 0; will-change: transform; }
 .cursor.is-on { opacity: 1; }
@@ -300,10 +327,15 @@ body.is-editing .media figcaption:empty::before { content: "이미지 설명"; }
   .fix-title { --x: 110; --y: 110; }
   .fix-en { --x: 110; bottom: calc((var(--H) - 1741 - 14.82) * var(--p)); max-width: calc(620 * var(--p)); }
   .back { top: calc(1590.8 * var(--p)); right: calc((var(--W) - 970) * var(--p)); }
+
+  /* 소식지: 쪽지는 김도욱 위. 보관함은 3칸 × 4줄(가로 330부터 248 간격, 세로 110부터 260 간격) */
+  .news-note { left: calc(860 * var(--p)); top: calc(1203 * var(--p)); }
+  .news-tile { left: calc(var(--mx) * var(--p)); top: calc(var(--my) * var(--p)); }
+  .news-year { --x: 110; --y: 194; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cursor .logo-mark, .ear, .ear-row { transition: none; }
+  .cursor .logo-mark, .ear, .ear-row, .news-open { transition: none; }
 }
 
 /* ===== 아래는 예전 사이트에서 그대로 가져온 부분 (블록·책·불안·편집) ===== */

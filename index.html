@@ -62,6 +62,9 @@
             </g>
           </svg>
 
+          <!-- 이달의 소식지 쪽지 (첫 화면에서만). 내용은 script.js의 소식지 부분이 채운다 -->
+          <div class="news-note" id="news-note" hidden></div>
+
           <a class="more" href="#about">
             <span class="v v40">김도욱</span>
             <span class="en t30">More about<br>Dowook Kim</span>
@@ -89,6 +92,11 @@
     </div>
   </section>
 
+  <!-- 소식지 보관함: 한 해가 한 화면. 맨 위가 가장 최근 해, 내려가면 작년 · 재작년 -->
+  <section class="view view--news" data-view="news" aria-label="소식지 보관함" hidden>
+    <div class="board" id="news-years"></div>
+  </section>
+
   <!-- 불안 (이스터에그: 첫 화면 얼굴을 빠르게 5번 누르면 열린다) -->
   <section class="view view--anxiety" data-view="anxiety" hidden>
     <div class="anxiety-hero">
@@ -111,6 +119,9 @@
     </div>
   </div>
 </div>
+
+<!-- 펼친 소식지: 화면 아무 데나 누르면 닫힌다(브라우저 뒤로 가기로는 닫히지 않는다) -->
+<div class="news-open" id="news-open" role="dialog" aria-modal="true" tabindex="-1" hidden><img alt=""></div>
 
 <!-- 줄 귀(노래 목록에서 재생 중인 줄에 뜬다) -->
 <template id="ear-row-tpl">

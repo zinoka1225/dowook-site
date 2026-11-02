@@ -2,7 +2,7 @@
    도욱 — script.js
    1) 화면 전환(주소 끝 #이름)
    2) 첫 화면 · 디자인 · 교육 · 노래: 같은 얼굴. 첫 화면에서는 로고가 커서, 주제에 들어가면 로고가 주제 옆에 고정
-   3) 목록 · 나에 대해서 · 작업/수업 하나
+   3) 목록 · 나에 대해서 · 작업/수업 하나 · 소식지(첫 화면 쪽지와 보관함)
    4) 이스터에그, 편집 모드 (맨 아래)
    글과 목록은 모두 content/data.js(window.SITE)에서 읽는다.
    ========================================================= */
@@ -582,6 +582,136 @@ document.querySelectorAll('[data-edit^="intro."]').forEach((el) => {
 }
 
 /* =========================================================
+   소식지
+   - content/data.js 의 "news": [{ id: "2026-11", src: "2026-11.png", alt: "글 전체" }]
+     이미지는 assets/news/ 에. id(연-월) 순서로 정렬해서 마지막이 이달의 소식지.
+   - 소식지는 한 사람(한 브라우저)이 한 번만 펼쳐 볼 수 있다. 펼친 뒤 화면을 눌러 닫으면 '읽음'.
+   - 첫 화면 쪽지: 안 읽었으면 누르면 펼쳐진다. 읽은 뒤에는 소식지가 둘 이상일 때만 보관함(#news)으로.
+   - 보관함: 한 해 한 화면, 맨 위가 가장 최근 해. 안 읽은 달만 눌러서 펼칠 수 있다.
+   - 펼친 소식지는 브라우저 뒤로 가기로 닫히지 않는다. 화면 아무 데나 눌러야 닫힌다.
+   ========================================================= */
+const News = (() => {
+  const KEY = 'dowook-news-read';
+  const GUARD = 450;                      // 펼치자마자 닫히지 않게(ms)
+  const all = () => (SITE.news || []).filter((n) => /^\d{4}-\d{1,2}$/.test(n.id))
+    .sort((a, b) => key(a) - key(b));
+  const key = (n) => { const [y, m] = n.id.split('-').map(Number); return y * 100 + m; };
+  const ym = (n) => n.id.split('-').map(Number);
+  const label = (n) => `${ym(n)[1]}월`;
+  const src = (n) => `assets/news/${esc(n.src)}`;
+
+  /* 읽음 기록: 이 브라우저 안에만 */
+  const read = new Set();
+  try { (JSON.parse(localStorage.getItem(KEY)) || []).forEach((id) => read.add(id)); } catch { /* 무시 */ }
+  const markRead = (n) => { read.add(n.id); try { localStorage.setItem(KEY, JSON.stringify([...read])); } catch { /* 무시 */ } };
+  const isRead = (n) => read.has(n.id);
+
+  /* 손으로 그린 종이: 달마다 조금씩 다르게 기울고 흔들린다(같은 달은 언제나 같은 모양) */
+  function rand(seed) { let s = seed >>> 0 || 1; return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; }
+  function paper(seed, W = 144, H = 150) {
+    const r = rand(seed * 2654435761);
+    const j = (a) => (r() * 2 - 1) * a;
+    const lean = 12 + r() * 10;            // 윗변이 오른쪽으로 밀린 만큼(시안처럼 비스듬히)
+    const c = [[lean + j(3), 1 + j(2)], [W - 1 + j(2), 2 + j(2)], [W - lean * 0.6 + j(3), H - 1 + j(2)], [1 + j(2), H - 4 + j(2)]];
+    let d = `M${c[0][0].toFixed(1)},${c[0][1].toFixed(1)}`;
+    for (let k = 0; k < 4; k++) {
+      const [ax, ay] = c[k], [bx, by] = c[(k + 1) % 4];
+      const len = Math.hypot(bx - ax, by - ay), nx = -(by - ay) / len, ny = (bx - ax) / len;
+      const pts = [];
+      for (let t = 1; t < 5; t++) { const o = j(1.8); pts.push([ax + (bx - ax) * t / 5 + nx * o, ay + (by - ay) * t / 5 + ny * o]); }
+      pts.push([bx, by]);
+      pts.forEach(([x, y], i) => {
+        if (i === pts.length - 1) { d += `L${x.toFixed(1)},${y.toFixed(1)}`; return; }
+        d += `Q${x.toFixed(1)},${y.toFixed(1)} ${((x + pts[i + 1][0]) / 2).toFixed(1)},${((y + pts[i + 1][1]) / 2).toFixed(1)}`;
+      });
+    }
+    return `<svg class="paper" viewBox="0 0 ${W} ${H}" aria-hidden="true"><path d="${d}Z"/></svg>`;
+  }
+  const paperOf = (n) => paper(key(n));
+
+  /* 펼친 소식지 */
+  const box = $('#news-open');
+  const img = box.querySelector('img');
+  let cur = null, openedAt = 0, onClose = null;
+  function open(n, after) {
+    if (!n || isRead(n) || cur) return;
+    cur = n; openedAt = Date.now(); onClose = after || null;
+    img.src = src(n);
+    img.alt = n.alt || '';
+    box.setAttribute('aria-label', `월간 소식지 ${label(n)}`);
+    box.hidden = false;
+    document.documentElement.classList.add('news-lock');
+    requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('is-on')));
+    history.pushState({ newsOpen: true }, '');       // 뒤로 가기를 한 번 받아 줄 자리
+    box.focus({ preventScroll: true });
+  }
+  function close() {
+    if (!cur || Date.now() - openedAt < GUARD) return;
+    markRead(cur);
+    cur = null;
+    box.classList.remove('is-on');
+    setTimeout(() => { if (!cur) { box.hidden = true; img.removeAttribute('src'); } }, reduce.matches ? 0 : 350);
+    document.documentElement.classList.remove('news-lock');
+    if (history.state && history.state.newsOpen) history.back();
+    renderNote();
+    if (onClose) onClose();
+  }
+  box.addEventListener('click', close);
+  box.addEventListener('keydown', (e) => { if (['Escape', 'Enter', ' '].includes(e.key)) { e.preventDefault(); close(); } });
+  // 펼쳐 둔 채로 뒤로 가기를 누르면: 닫지 않고 다시 자리를 만든다
+  window.addEventListener('popstate', () => { if (cur) history.pushState({ newsOpen: true }, ''); });
+
+  /* 첫 화면 쪽지 */
+  function renderNote() {
+    const host = $('#news-note');
+    const list = all();
+    const n = list.at(-1);
+    host.hidden = !n;
+    if (!n) { host.innerHTML = ''; return; }
+    const inner = `${paperOf(n)}<span class="m">${label(n)}</span>`;
+    if (!isRead(n)) {
+      host.innerHTML = `<button class="news-hit" type="button" aria-label="월간 소식지 ${label(n)} 펼치기">${inner}</button>`;
+      host.querySelector('button').addEventListener('click', () => open(n));
+      const pre = new Image(); pre.src = src(n);      // 누르자마자 보이게 미리 받아 둔다
+    } else if (list.length > 1) {
+      host.innerHTML = `<a class="news-hit" href="#news" aria-label="지난 소식지 보관함">${inner}</a>`;
+    } else {
+      host.innerHTML = `<div class="news-hit" aria-label="월간 소식지 ${label(n)} (이미 읽음)">${inner}</div>`;
+    }
+  }
+
+  /* 보관함 */
+  function renderArchive() {
+    const byYear = new Map();
+    all().forEach((n) => { const y = ym(n)[0]; if (!byYear.has(y)) byYear.set(y, []); byYear.get(y).push(n); });
+    const years = [...byYear.keys()].sort((a, b) => b - a);
+    $('#news-years').innerHTML = years.map((y) => `
+      <section class="screen" aria-label="${y}년 소식지">
+        <div class="frame">
+          <h2 class="en t40 at news-year">${y}</h2>
+          ${byYear.get(y).map((n, i) => {
+            const r = rand(key(n) * 40503), j = (a) => (r() * 2 - 1) * a;   // 손으로 붙인 듯 조금씩 어긋나게
+            const x = 295 + (i % 7) * 215 + j(10), yy = 140 + Math.floor(i / 7) * 271 + j(7);
+            const mx = 330 + (i % 3) * 248 + j(8), my = 110 + Math.floor(i / 3) * 260 + j(6);
+            const inner = `${paperOf(n)}<span class="m">${label(n)}</span>`;
+            const tag = isRead(n)
+              ? `<div class="news-hit" aria-label="${label(n)} 소식지 (이미 읽음)">${inner}</div>`
+              : `<button class="news-hit" type="button" data-id="${esc(n.id)}" aria-label="${label(n)} 소식지 펼치기">${inner}</button>`;
+            return `<div class="news-tile" style="--x:${x.toFixed(1)};--y:${yy.toFixed(1)};--mx:${mx.toFixed(1)};--my:${my.toFixed(1)}">${tag}</div>`;
+          }).join('')}
+        </div>
+      </section>`).join('');
+  }
+  $('#news-years').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-id]');
+    if (!b) return;
+    open(all().find((n) => n.id === b.dataset.id), renderArchive);
+  });
+
+  return { renderNote, renderArchive, count: () => all().length };
+})();
+
+/* =========================================================
    화면 전환 (주소 끝의 #이름)
    ========================================================= */
 const HERO = ['home', 'design', 'education', 'singing'];
@@ -595,6 +725,7 @@ function route() {
   let m, next = null, nextMode = mode;
   if (HERO.includes(hash)) { next = 'hero'; nextMode = hash; }
   else if (hash === 'about' || hash === 'email') next = 'about';
+  else if (hash === 'news' && News.count()) next = 'news';
   else if ((m = hash.match(/^work-(\d+)$/))) next = 'detail';
   else if ((m = hash.match(/^lesson-(\d+)$/))) next = 'detail';
   else if (hash === 'anxiety' || hash === 'editor-setup') next = hash;
@@ -612,13 +743,15 @@ function route() {
     if (list.dataset.mode !== mode || list.dataset.dirty) { renderList(mode); list.dataset.mode = mode; delete list.dataset.dirty; }
   }
   if (view === 'about') renderAbout();
+  if (view === 'news') News.renderArchive();
+  if (view === 'hero') News.renderNote();
   if (view === 'detail') (hash.startsWith('work-') ? renderWork : renderLesson)(+m[1]);
 
-  // 고정 글자: 나에 대해서는 '뒤로'만, 작업·수업 하나는 제목까지
+  // 고정 글자: 나에 대해서 · 소식지 보관함은 '뒤로'만, 작업·수업 하나는 제목까지
   const fix = $('#fix');
-  fix.hidden = !(view === 'about' || view === 'detail');
-  if (view === 'about') setFixed('', '', '', '', '#home');
-  document.documentElement.classList.toggle('snap', view === 'about' || view === 'detail');   // 한 화면씩 넘어간다
+  fix.hidden = !(view === 'about' || view === 'detail' || view === 'news');
+  if (view === 'about' || view === 'news') setFixed('', '', '', '', '#home');
+  document.documentElement.classList.toggle('snap', view === 'about' || view === 'detail' || view === 'news');   // 한 화면씩 넘어간다
 
   document.body.classList.toggle('hm-on', homeOn());
   if (!homeOn()) hideCursor();
