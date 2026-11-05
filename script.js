@@ -120,7 +120,7 @@ function renderList(m) {
         <p class="row-date en t28">${monthYear(l.date)}</p>
         ${ed(`education.${i}.en`, l.en || '', 'p', 'row-en en t28')}
         <div class="row-media">
-          <a class="row-thumb" href="#lesson-${i}" aria-label="${esc(l.title)} 자세히 보기"><img src="assets/edu/${esc(l.images[0].src)}" alt="${esc(l.title)} 수업 자료 표지" loading="lazy"></a>
+          <a class="row-thumb" href="#lesson-${i}" aria-label="${esc(l.title)} 자세히 보기"><img src="assets/edu/${esc(l.cover || l.images[0].src)}" alt="${esc(l.title)} 표지" loading="lazy"></a>
           <a class="row-go" href="#lesson-${i}"><span class="v v28">${vt('자세히 보기')}</span><span class="en t30">view</span></a>
         </div>
       </article>`).join('');
@@ -385,6 +385,14 @@ function renderLesson(i) {
       <img src="assets/edu/${esc(im.src)}" alt="${esc(l.title)} ${esc(im.alt || '')}" loading="lazy">
       ${im.credit ? `<figcaption>${ed(`${b}.images.${k}.credit`, im.credit)}</figcaption>` : ''}
     </figure>`;
+  // "layout": "photos" 이면 사진(비율이 제각각)을 한 화면에 나란히. 높이를 맞추고, ratio(가로/세로)로 폭을 나눈다
+  if (l.layout === 'photos') {
+    const sum = l.images.reduce((t, im) => t + (+im.ratio || 1), 0);
+    $('#detail-2').innerHTML = page(`<div class="photos" style="--sum:${sum};--n:${l.images.length}">${l.images.map((im) => `
+      <img src="assets/edu/${esc(im.src)}" alt="${esc(l.title)} ${esc(im.alt || '')}" style="--ar:${+im.ratio || 1}" loading="lazy">`).join('')}
+    </div>`);
+    return;
+  }
   const per = portrait.matches ? 3 : 4;
   const pages = [];
   let cur = [];

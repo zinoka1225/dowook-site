@@ -629,6 +629,33 @@ window.SITE = {
  ],
  "education": [
   {
+   "date": "2026.10",
+   "title": "26년도 상상공방",
+   "role": "봉사자",
+   "summary": "KT&G 복지재단 상상공방 프로그램에 참여해 AI로 나만의 캐릭터를 디자인하고 키링으로 만드는 활동.",
+   "cover": "sangsang-cover.jpg",
+   "layout": "photos",
+   "images": [
+    {
+     "src": "sangsang-01.jpg",
+     "alt": "활동 사진 1",
+     "ratio": 1.524
+    },
+    {
+     "src": "sangsang-02.jpg",
+     "alt": "활동 사진 2",
+     "ratio": 0.374
+    }
+   ],
+   "plan": [],
+   "result": [],
+   "next": [],
+   "ko": "26년도 상상공방\nAI 캐릭터 키링 만들기",
+   "en": "Sangsang Gongbang 2026",
+   "introKo": "KT&G 복지재단에서 진행하는 상상공방 프로그램에 참여했습니다.\nAI를 활용해서 자신만의 캐릭터를 디자인하고 키링으로 만들어보는 활동을 진행했습니다.",
+   "introEn": "I took part in Sangsang Gongbang, a program run by the KT&G Welfare Foundation.\nIn this activity, participants used AI to design their own characters and turned them into keyrings."
+  },
+  {
    "date": "2026.10.14",
    "title": "어둠 속에 숨겨진 비밀",
    "subtitle": "어둠 속에 숨은 밤의 숲 친구를 찾아라",
@@ -1059,12 +1086,12 @@ window.SITE = {
    "en": "Whether I say what I want to say,\nplainly."
   },
   "education": {
-   "ko": "무엇을 배우고, 무엇을 가르치는\n사람이 되는가",
-   "en": "Who I become\nby what I learn and what I teach"
+   "ko": "무엇을 배우고, 무엇을 가르치는\n사람이 되는가.",
+   "en": "Who I become\nby what I learn and what I teach."
   },
   "singing": {
-   "ko": "음악을 즐길 수 있는 사람인가.",
-   "en": "Whether I am someone\nwho can enjoy music."
+   "ko": "음악을 즐길 수 있는가.",
+   "en": "Whether I can enjoy music."
   }
  },
  "about": {

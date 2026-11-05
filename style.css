@@ -232,6 +232,9 @@ body.is-editing .media figcaption:empty::before { content: "이미지 설명"; }
 .slides img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #e4e4e4; }
 .sheet img { max-width: 100%; max-height: var(--mh); width: auto; height: auto; }
 .slide figcaption { font-size: calc(18 * var(--p)); }
+/* 활동 사진: 한 화면에 나란히, 높이를 맞춘다 */
+.photos { --g: calc(50 * var(--p)); display: flex; gap: var(--g); width: min(100%, calc(var(--mh) * var(--sum) + (var(--n) - 1) * var(--g))); }
+.photos img { flex: var(--ar) 1 0; min-width: 0; width: 0; height: auto; }
 
 /* 화면에 고정되는 글자: 위로 지나가는 이미지 위에서도 읽히도록 반전 */
 .fix { position: fixed; inset: 0; z-index: 20; display: grid; align-content: center; pointer-events: none; color: #fff; mix-blend-mode: difference; }
@@ -324,6 +327,8 @@ html.news-lock, html.news-lock body { overflow: hidden; }
   .media .bk-frame { width: min(100%, calc(var(--mh) * var(--ratio))); }
   .media .toc { max-height: calc(560 * var(--p)); font-size: calc(26 * var(--p)); }
   .slides { grid-template-columns: calc(724 * var(--p)); }
+  .photos { flex-direction: column; align-items: center; width: 100%; }
+  .photos img { flex: none; width: auto; height: auto; max-width: 100%; max-height: calc((var(--mh) - var(--g)) / 2); }
   .fix-title { --x: 110; --y: 110; }
   .fix-en { --x: 110; bottom: calc((var(--H) - 1741 - 14.82) * var(--p)); max-width: calc(620 * var(--p)); }
   .back { top: calc(1590.8 * var(--p)); right: calc((var(--W) - 970) * var(--p)); }
