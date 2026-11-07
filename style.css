@@ -189,9 +189,6 @@ img { display: block; max-width: 100%; height: auto; }
 .song-go { grid-column: 5; justify-self: end; display: flex; flex-direction: column; align-items: flex-end; }
 .song-go .en { line-height: calc(30 * var(--p)); margin-top: calc(24.1 * var(--p)); }   /* 기준선 = 들어보기 끝 + 50 */
 
-@media (hover: hover) {
-  .row-go:hover .en, .song-go:hover .en, .back:hover .en, .ab-mail:hover { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: calc(1.6 * var(--p)); }
-}
 
 /* ---------- 나에 대해서 ---------- */
 .ab-title { --x: 148; --y: 150; }
@@ -206,8 +203,9 @@ img { display: block; max-width: 100%; height: auto; }
 .hist-row .v28 { margin-left: calc(-7 * var(--p)); }
 .hist-row .en { margin-top: calc(-10.54 * var(--p)); }
 .view--about .screen { scroll-snap-align: start; }
-/* 나에 대해서는 모든 글자를 Medium으로(뒤로 포함) */
-.view--about, .view--about :is(h1, p, dt, dd, a, span, i), body.on-about .fix :is(p, a, span, i) { font-weight: 500; }
+/* 나에 대해서는 글자를 Medium으로. 큰 세로 글(나에 대해서 · 뒤로)만 Regular라야 작은 Medium 글자와 무게가 맞는다 */
+.view--about, .view--about :is(p, dt, dd, a, span) { font-weight: 500; }
+.view--about .ab-title, .view--about .ab-title i { font-weight: 400; }
 
 /* ---------- 작업 · 수업 하나 ---------- */
 .d-text { position: absolute; left: calc(326 * var(--p)); right: calc((var(--W) - 1820) * var(--p)); top: calc((150 + 24.64 - 36.2) * var(--p)); }
@@ -409,7 +407,6 @@ html.news-lock, html.news-lock body { overflow: hidden; }
 .book-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px 32px; align-items: start; }
 .book-row.has-toc { grid-template-columns: minmax(0, 1fr) 15em; }
 .book-label { justify-self: start; color: var(--fg); }
-.book-label:hover { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
 .book-main { min-width: 0; }
 .bk-frame { display: grid; gap: 14px; width: 100%; max-width: var(--max, 1100px); margin-inline: auto; }
 .bk-stage { position: relative; width: 100%; }
@@ -433,7 +430,6 @@ html.news-lock, html.news-lock body { overflow: hidden; }
 .book-nav .count { color: var(--muted); font-variant-numeric: tabular-nums; text-align: center; }
 .book-nav .prev-t { justify-self: start; }
 .book-nav .next-t { justify-self: end; }
-.book-nav button:hover:not([disabled]) { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
 .book-nav button[disabled] { visibility: hidden; }
 
 /* 목차: 책 높이만큼만 보이고 나머지는 휠로. 굵기·색은 모두 '목차'와 같게 */
@@ -445,7 +441,7 @@ html.news-lock, html.news-lock body { overflow: hidden; }
 .toc .ch > ol { display: grid; gap: .25em; margin-top: .45em; padding-left: .9em; }
 .toc button { display: flex; justify-content: space-between; gap: .6em; width: 100%; text-align: left; color: inherit; font-weight: 400; }
 .toc .pg { flex: none; font-variant-numeric: tabular-nums; }
-.toc button:hover .t, .toc button.is-here .t { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.toc button.is-here .t { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
 @media (max-width: 860px) {
   .book-row.has-toc { grid-template-columns: minmax(0, 1fr); }
   .toc { max-height: 46vh; padding-top: 1em; border-top: 1px solid #d6d6d6; }

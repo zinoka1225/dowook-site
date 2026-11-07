@@ -747,7 +747,6 @@ function route() {
   document.documentElement.classList.toggle('snap', view === 'about' || view === 'detail' || view === 'news');   // 한 화면씩 넘어간다
 
   document.body.classList.toggle('hm-on', homeOn());
-  document.body.classList.toggle('on-about', view === 'about');
   if (!homeOn()) hideCursor();
   view === 'hero' ? startEyes() : stopEyes();
   // 작업·수업에서 목록으로 돌아오면 보던 자리로, 그 밖에는 맨 위로
