@@ -173,10 +173,8 @@ function moveCursor(x, y) {
   curX = x; curY = y;
   cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
   cursor.classList.add('is-on');
-  const el = document.elementFromPoint(x, y);
-  cursor.classList.toggle('is-link', !!(el && el.closest('a, button')));
 }
-function hideCursor() { curX = curY = null; cursor.classList.remove('is-on', 'is-link'); }
+function hideCursor() { curX = curY = null; cursor.classList.remove('is-on'); }
 
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 window.addEventListener('pointermove', (e) => {
@@ -258,15 +256,6 @@ function look() {
 function startEyes() { if (!eyeRaf) eyeRaf = requestAnimationFrame(look); }
 function stopEyes() { cancelAnimationFrame(eyeRaf); eyeRaf = null; }
 
-/* 로고가 커서 자리에서 주제 옆으로 날아가 붙는다 */
-function flyPin(fromX, fromY) {
-  if (reduce.matches || fromX === null || !pin.animate) return;
-  const r = pin.getBoundingClientRect();
-  const dx = fromX - (r.left + r.width / 2), dy = fromY - (r.top + r.height / 2);
-  pin.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
-    { duration: 650, easing: 'cubic-bezier(.3,.7,.2,1)' });
-}
-
 /* =========================================================
    나에 대해서
    ========================================================= */
@@ -278,7 +267,9 @@ function renderAbout() {
     <dl class="ab-rows">
       <dt class="en t30">about me</dt>
       <dd>${ed('about.ko', a.ko, 'p', 'ko t28')}${ed('about.en', a.en, 'p', 'en t28')}</dd>
-      <dt class="en t30">Contact</dt>
+      <dt class="en t30">Instagram</dt>
+      <dd><a class="ab-mail en t28" href="https://www.instagram.com/douk.dsgn/" target="_blank" rel="noopener">douk.dsgn</a></dd>
+      <dt class="en t30">email</dt>
       <dd><a class="ab-mail en t28" href="mailto:${mail}">${mail}</a></dd>
     </dl>`;
   $('#about-2').innerHTML = `
@@ -649,7 +640,6 @@ const News = (() => {
     box.setAttribute('aria-label', `월간 소식지 ${label(n)}`);
     box.hidden = false;
     document.documentElement.classList.add('news-lock');
-    requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('is-on')));
     history.pushState({ newsOpen: true }, '');       // 뒤로 가기를 한 번 받아 줄 자리
     box.focus({ preventScroll: true });
   }
@@ -657,8 +647,8 @@ const News = (() => {
     if (!cur || Date.now() - openedAt < GUARD) return;
     markRead(cur);
     cur = null;
-    box.classList.remove('is-on');
-    setTimeout(() => { if (!cur) { box.hidden = true; img.removeAttribute('src'); } }, reduce.matches ? 0 : 350);
+    box.hidden = true;
+    img.removeAttribute('src');
     document.documentElement.classList.remove('news-lock');
     if (history.state && history.state.newsOpen) history.back();
     renderNote();
@@ -723,7 +713,7 @@ const views = () => document.querySelectorAll('[data-view]');
 
 function route() {
   const hash = location.hash.slice(1) || 'home';
-  const was = { view, mode, x: curX, y: curY };
+  const was = { view, mode };
   if (was.view === 'hero' && was.mode !== 'home') listY[was.mode] = window.scrollY;   // 목록에서 보던 자리
   let m, next = null, nextMode = mode;
   if (HERO.includes(hash)) { next = 'hero'; nextMode = hash; }
@@ -757,6 +747,7 @@ function route() {
   document.documentElement.classList.toggle('snap', view === 'about' || view === 'detail' || view === 'news');   // 한 화면씩 넘어간다
 
   document.body.classList.toggle('hm-on', homeOn());
+  document.body.classList.toggle('on-about', view === 'about');
   if (!homeOn()) hideCursor();
   view === 'hero' ? startEyes() : stopEyes();
   // 작업·수업에서 목록으로 돌아오면 보던 자리로, 그 밖에는 맨 위로
@@ -766,7 +757,6 @@ function route() {
   sizeCursor();
   Editor.refresh();
 
-  if (view === 'hero' && mode !== 'home' && was.view === 'hero' && was.mode === 'home') flyPin(was.x, was.y);
 }
 window.addEventListener('hashchange', route);
 window.addEventListener('resize', sizeCursor);

@@ -3,7 +3,7 @@
    대지 원칙: 일러스트레이터 대지를 화면에 그대로 옮긴다.
    - 가로 화면: 1920 × 1080 대지,  세로 화면(휴대폰): 1080 × 1920 대지
    - 1 단위 = 대지의 1pt.  --p 한 단위의 실제 크기.  예) calc(40 * var(--p)) = 40pt
-   - 글자: 한글 Noto Sans KR(세로 40 · 본문 28), 영문 Interop Medium(30 · 28)
+   - 글자: 한글·영문 모두 Interop(세로 40 · 본문 28 · 영문 30 · 28)
      행간 50, 길게 이어지는 설명은 48. 세로쓰기 자간 28(= 0.028em)
    - 여백: 첫 화면류 왼쪽 178, 글 페이지 왼쪽 148, 오른쪽 끝선 1820(여백 100), 위 170
      첫 화면류 위 134, 글 페이지 위 150.  휴대폰: 왼쪽·오른쪽 110, 첫 화면 위 94, 글 페이지 위 110
@@ -11,6 +11,19 @@
    - 세로 글 끝 → 아래 영문 기준선: 메뉴·들어보기 50, 뒤로 69, 김도욱 112.  목록 줄 사이 270
    ========================================================= */
 
+/* 한글까지 든 전체 Interop. 영문은 아래 라틴 파일(가벼움)이 먼저 쓰인다(같은 이름은 나중에 적은 쪽이 우선) */
+@font-face {
+  font-family: "Interop";
+  src: url("assets/fonts/Interop-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Interop";
+  src: url("assets/fonts/Interop-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
 @font-face {
   font-family: "Interop";
   src: url("assets/fonts/Interop-Regular-latin.woff2") format("woff2");
@@ -30,8 +43,8 @@
   --bg: #f1f1f1;
   --fg: #000000;
   --muted: #6e6e6e;
-  --ko: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --en: "Interop", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --ko: "Interop", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --en: var(--ko);
   --font: var(--ko);
   color-scheme: light;
 }
@@ -87,7 +100,7 @@ img { display: block; max-width: 100%; height: auto; }
 /* 편집 중에는 쌓지 않고 글자 그대로(세로쓰기) 보여 준다 */
 .v.v-raw { display: block; writing-mode: vertical-lr; text-orientation: mixed; letter-spacing: .028em; line-height: calc(var(--pitch) * var(--p)); white-space: normal; }
 .en  { font-family: var(--en); font-weight: 500; --k: .3636; }        /* Interop: 기준선 = 줄 가운데 + 0.3636em */
-.ko  { font-family: var(--ko); --k: .436; }          /* Noto Sans KR: 줄 가운데 + 0.436em */
+.ko  { font-family: var(--ko); --k: .3636; }        /* Interop: 줄 가운데 + 0.3636em */
 .t30 { --fs: 30; --lh: 50; font-size: calc(30 * var(--p)); line-height: calc(50 * var(--p)); }
 .t28 { --fs: 28; --lh: 50; font-size: calc(28 * var(--p)); line-height: calc(50 * var(--p)); }
 .long { --lh: 48; line-height: calc(48 * var(--p)); }
@@ -123,7 +136,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 .face { position: absolute; left: calc(960 * var(--p)); top: calc(420 * var(--p)); width: calc(560 * var(--p)); height: auto; overflow: visible; }
 .face path, .face circle, .ear-row path { fill: none; stroke: var(--fg); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-.ear { opacity: 0; transition: opacity .5s ease; }
+.ear { opacity: 0; }
 .is-listening .ear { opacity: 1; }
 
 .more {
@@ -171,13 +184,13 @@ img { display: block; max-width: 100%; height: auto; }
 .song-artist > .en { margin-bottom: calc(-13.82 * var(--p)); }   /* 영문 이름 기준선 = 세로 제목 끝 */
 .song-en .with { display: block; }
 .song-ear { grid-column: 4; position: relative; }
-.ear-row { position: absolute; left: calc(302 * var(--p)); top: calc(-2 * var(--p)); width: calc(125.7 * var(--p)); height: auto; overflow: visible; opacity: 0; transition: opacity .5s ease; }
+.ear-row { position: absolute; left: calc(302 * var(--p)); top: calc(-2 * var(--p)); width: calc(125.7 * var(--p)); height: auto; overflow: visible; opacity: 0; }
 .song.is-playing .ear-row { opacity: 1; }
 .song-go { grid-column: 5; justify-self: end; display: flex; flex-direction: column; align-items: flex-end; }
 .song-go .en { line-height: calc(30 * var(--p)); margin-top: calc(24.1 * var(--p)); }   /* 기준선 = 들어보기 끝 + 50 */
 
 @media (hover: hover) {
-  .row-go:hover .en, .song-go:hover .en, .more:hover .en, .back:hover .en, .ab-mail:hover { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: calc(1.6 * var(--p)); }
+  .row-go:hover .en, .song-go:hover .en, .back:hover .en, .ab-mail:hover { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: calc(1.6 * var(--p)); }
 }
 
 /* ---------- 나에 대해서 ---------- */
@@ -193,6 +206,8 @@ img { display: block; max-width: 100%; height: auto; }
 .hist-row .v28 { margin-left: calc(-7 * var(--p)); }
 .hist-row .en { margin-top: calc(-10.54 * var(--p)); }
 .view--about .screen { scroll-snap-align: start; }
+/* 나에 대해서는 모든 글자를 Medium으로(뒤로 포함) */
+.view--about, .view--about :is(h1, p, dt, dd, a, span, i), body.on-about .fix :is(p, a, span, i) { font-weight: 500; }
 
 /* ---------- 작업 · 수업 하나 ---------- */
 .d-text { position: absolute; left: calc(326 * var(--p)); right: calc((var(--W) - 1820) * var(--p)); top: calc((150 + 24.64 - 36.2) * var(--p)); }
@@ -267,10 +282,8 @@ a.news-hit, button.news-hit { cursor: pointer; }
 .news-open {
   position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
   background: rgba(241, 241, 241, .94); cursor: pointer; outline: none;
-  opacity: 0; transition: opacity .35s ease;
   -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none;
 }
-.news-open.is-on { opacity: 1; }
 .news-open img { width: auto; height: auto; max-width: 92vw; max-height: 92vh; max-height: 92dvh; -webkit-user-drag: none; }
 body.hm-on .news-open { cursor: none; }   /* 첫 화면에서는 로고 커서가 그대로 */
 html.news-lock, html.news-lock body { overflow: hidden; }
@@ -278,8 +291,6 @@ html.news-lock, html.news-lock body { overflow: hidden; }
 /* ---------- 로고 커서 ---------- */
 .cursor { position: fixed; left: 0; top: 0; z-index: 100; width: var(--cw, 40px); pointer-events: none; opacity: 0; will-change: transform; }
 .cursor.is-on { opacity: 1; }
-.cursor .logo-mark { transition: transform .18s ease; }
-.cursor.is-link .logo-mark { transform: scale(1.18); }
 @media (hover: hover) and (pointer: fine) {
   body.hm-on, body.hm-on a, body.hm-on button { cursor: none; }
 }
@@ -339,10 +350,6 @@ html.news-lock, html.news-lock body { overflow: hidden; }
   .news-year { --x: 110; --y: 194; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cursor .logo-mark, .ear, .ear-row, .news-open { transition: none; }
-}
-
 /* ===== 아래는 예전 사이트에서 그대로 가져온 부분 (블록·책·불안·편집) ===== */
 
 /* ---------- 불안 화면 단위 ---------- */
@@ -394,7 +401,7 @@ html.news-lock, html.news-lock body { overflow: hidden; }
 .blk-flipgrid { width: min(100%, 900px); }
 .flipgrid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: clamp(4px, .8vw, 10px); width: 100%; }
 .fg-cell { display: block; width: 100%; background: #fff; }
-.fg-cell img { display: block; width: 100%; aspect-ratio: var(--ratio); object-fit: cover; transition: opacity .15s; }
+.fg-cell img { display: block; width: 100%; aspect-ratio: var(--ratio); object-fit: cover; }
 .fg-cell:hover img { opacity: .85; }
 
 /* 책: 펼친 두 쪽. 누르면 바로 다음 펼침면으로 바뀐다 */
@@ -407,15 +414,13 @@ html.news-lock, html.news-lock body { overflow: hidden; }
 .bk-frame { display: grid; gap: 14px; width: 100%; max-width: var(--max, 1100px); margin-inline: auto; }
 .bk-stage { position: relative; width: 100%; }
 .bk-stage:focus-visible { outline-offset: 8px; }
-.spread { position: relative; width: 100%; aspect-ratio: var(--ratio); transition: transform .55s cubic-bezier(.3,.7,.2,1); }
+.spread { position: relative; width: 100%; aspect-ratio: var(--ratio); }
 .spread.is-first { transform: translateX(-25%); }
 .spread.is-last  { transform: translateX(25%); }
 .half { position: absolute; top: 0; bottom: 0; width: 50%; overflow: hidden; }
 .half.l { left: 0; } .half.r { right: 0; }
 .half img { display: block; width: 100%; height: 100%; object-fit: cover; background: #fff; user-select: none; }
 .half:empty { visibility: hidden; }
-.half img { animation: page-in .18s ease-out; }
-@keyframes page-in { from { opacity: .35; } }
 .half:not(:empty)::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6%; pointer-events: none; }
 .half.l:not(:empty)::after { right: 0; background: linear-gradient(to left, rgba(17,17,17,.14), transparent); }
 .half.r:not(:empty)::after { left: 0;  background: linear-gradient(to right, rgba(17,17,17,.14), transparent); }
@@ -445,8 +450,6 @@ html.news-lock, html.news-lock body { overflow: hidden; }
   .book-row.has-toc { grid-template-columns: minmax(0, 1fr); }
   .toc { max-height: 46vh; padding-top: 1em; border-top: 1px solid #d6d6d6; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .spread, }
 
 
 /* ---------- 불안 (이스터에그) ---------- */
