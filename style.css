@@ -98,7 +98,7 @@ img { display: block; max-width: 100%; height: auto; }
 .vc > .sp { height: .2545em; }
 /* 고리점: Interop에 '。'이 없어 원을 그린다. 지름 .27em, 오른쪽 끝을 한글 글자 오른쪽 끝(.89em)에 맞춤. 획은 Regular .056em · Medium .068em */
 .vc > .pd { position: relative; -webkit-text-fill-color: transparent; }
-.vc > .pd::after { content: ""; position: absolute; left: .63em; top: -.1em; width: .27em; height: .27em; box-sizing: border-box; border: .056em solid currentColor; border-radius: 50%; }
+.vc > .pd::after { content: ""; position: absolute; left: .63em; top: .01em; width: .27em; height: .27em; box-sizing: border-box; border: .056em solid currentColor; border-radius: 50%; }
 .view--about .hist .vc > .pd::after { border-width: .068em; }
 /* 모점(、): 같은 자리에 왼쪽 위에서 오른쪽 아래로 내려 긋는 짧은 획 */
 .vc > .pd.cm::after { border: 0; border-radius: 0; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M23 9C38 18 66 44 82 61C92 72 90 89 76 92C65 94 59 85 54 76C44 59 27 39 12 28C4 22 11 4 23 9Z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M23 9C38 18 66 44 82 61C92 72 90 89 76 92C65 94 59 85 54 76C44 59 27 39 12 28C4 22 11 4 23 9Z'/%3E%3C/svg%3E") center / contain no-repeat; }
