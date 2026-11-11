@@ -96,6 +96,10 @@ img { display: block; max-width: 100%; height: auto; }
 .vc { display: flex; flex-direction: column; align-items: center; width: calc(var(--pitch) * var(--p)); }
 .vc > i { display: block; font-style: normal; width: 1em; height: 1.028em; line-height: .888em; text-align: center; }
 .vc > .sp { height: .2545em; }
+/* 고리점: Interop에 '。'이 없어 원을 그린다. 지름 .27em, 오른쪽 끝을 한글 글자 오른쪽 끝(.89em)에 맞춤. 획은 Regular .056em · Medium .068em */
+.vc > .pd { position: relative; -webkit-text-fill-color: transparent; }
+.vc > .pd::after { content: ""; position: absolute; left: .63em; top: -.1em; width: .27em; height: .27em; box-sizing: border-box; border: .056em solid currentColor; border-radius: 50%; }
+.view--about .hist .vc > .pd::after { border-width: .068em; }
 .vc > .rt { height: var(--rt-h, .45em); line-height: var(--rt-h, .45em); transform: translateY(var(--rt-y, -.03em)) rotate(90deg); }   /* 괄호: 잉크 높이만큼만 칸을 써서 옆 줄과 윗선을 맞춘다 */
 /* 편집 중에는 쌓지 않고 글자 그대로(세로쓰기) 보여 준다 */
 .v.v-raw { display: block; writing-mode: vertical-lr; text-orientation: mixed; letter-spacing: .028em; line-height: calc(var(--pitch) * var(--p)); white-space: normal; }
