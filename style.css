@@ -210,6 +210,7 @@ img { display: block; max-width: 100%; height: auto; }
 /* ---------- 작업 · 수업 하나 ---------- */
 .d-text { position: absolute; left: calc(326 * var(--p)); right: calc((var(--W) - 1820) * var(--p)); top: calc((150 + 24.64 - 36.2) * var(--p)); }
 .d-en { margin-top: calc(64 * var(--p)); }
+.d-text .ko { font-weight: 500; }   /* 작은 설명 한글도 영문처럼 Medium이라야 무게가 맞는다 */
 .d-text a { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: calc(1.6 * var(--p)); }
 /* 이미지 화면: 블록 하나(또는 슬라이드 4장)가 한 화면. 한 번에 한 화면씩 넘어간다.
    칸 = 가로 357~1669(가운데 1013), 세로 150~862. 세로 제목의 윗선(150)에 맞추고 고정 글자(영문 제목·뒤로)에 닿지 않는다 */
