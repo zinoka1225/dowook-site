@@ -44,9 +44,10 @@ function paintRich(editing) {
 /* 세로쓰기: 글자를 한 자씩 쌓는다. \n은 다음 줄(오른쪽 열), maxEm을 넘으면 띄어쓰기에서 다음 줄로 */
 const VCH = 1.028, VSP = 0.2545;
 const vlen = (w) => [...w].length * VCH;
-// 세로쓰기의 마침표는 고리점으로: 마지막 글자 오른쪽 아래(다음 칸 오른쪽 위)에 원을 그린다. 글자는 '.' 그대로 둬서 복사하면 마침표로 나온다
+// 세로쓰기의 마침표는 고리점, 쉼표는 모점으로: 마지막 글자 오른쪽 아래(다음 칸 오른쪽 위)에 원을 그린다. 글자는 '.' 그대로 둬서 복사하면 마침표로 나온다
 const vcell = (ch) => ch === ' ' ? '<i class="sp"></i>'
   : ch === '.' ? '<i class="pd">.</i>'
+  : ch === ',' ? '<i class="pd cm">,</i>'
   : /[()[\]{}<>〈〉《》「」『』]/.test(ch) ? `<i class="rt">${esc(ch)}</i>` : `<i>${esc(ch)}</i>`;
 function vt(text, maxEm = Infinity) {
   const cols = [];
