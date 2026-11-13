@@ -778,32 +778,16 @@ function route() {
 window.addEventListener('hashchange', route);
 
 /* ---------- 화면 넘기기: 나에 대해서 · 작업/수업 하나 · 소식지 보관함 ----------
-   스크롤은 자유롭게(자석처럼 붙는 스냅 없음). 링크·버튼·영상·책 같은 것이 아닌 빈 곳을 누르면 다음 화면으로 넘어간다 */
-const PAGE_MS = 240;                 // 다음 화면으로 넘어가는 시간(ms)
-let pageAnim = null;
-function scrollToY(y) {
-  if (pageAnim) cancelAnimationFrame(pageAnim.id);
-  const from = window.scrollY, d = y - from;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches || Math.abs(d) < 2) { pageAnim = null; window.scrollTo(0, y); return; }
-  const t0 = performance.now();
-  pageAnim = { to: y };
-  const step = (t) => {
-    const k = Math.min(1, (t - t0) / PAGE_MS), e = 1 - (1 - k) ** 3;
-    window.scrollTo(0, from + d * e);
-    if (k < 1) pageAnim.id = requestAnimationFrame(step); else pageAnim = null;
-  };
-  pageAnim.id = requestAnimationFrame(step);
-}
-['wheel', 'touchstart', 'keydown'].forEach((t) => window.addEventListener(t, () => { if (pageAnim) { cancelAnimationFrame(pageAnim.id); pageAnim = null; } }, { passive: true }));
+   스크롤은 자유롭게(자석처럼 붙는 스냅 없음). 링크·버튼·영상·책 같은 것이 아닌 빈 곳을 누르면 다음 화면으로 바로 넘어간다 */
 document.addEventListener('click', (e) => {
   if (!['about', 'detail', 'news'].includes(view) || e.defaultPrevented || e.button !== 0) return;
   if (document.body.classList.contains('is-editing') || String(getSelection())) return;
   if (e.target.closest('a, button, input, textarea, select, label, video, audio, [contenteditable], .book-row, .toc, .news-hit, .news-open')) return;
-  const at = (pageAnim ? pageAnim.to : window.scrollY) + 4;
+  const at = window.scrollY + 4;
   const next = [...document.querySelectorAll(`[data-view="${view}"] .screen`)]
     .map((el) => Math.round(el.getBoundingClientRect().top + window.scrollY))
     .find((y) => y > at);
-  if (next != null) scrollToY(Math.min(next, document.documentElement.scrollHeight - innerHeight));
+  if (next != null) window.scrollTo({ top: Math.min(next, document.documentElement.scrollHeight - innerHeight), behavior: 'instant' });
 });
 window.addEventListener('resize', sizeCursor);
 portrait.addEventListener('change', () => { if (view === 'detail') route(); });   // 가로↔세로가 바뀌면 화면 나누기를 다시
