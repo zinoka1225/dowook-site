@@ -1,7 +1,7 @@
 /* 사이트에 들어가는 모든 글과 작업 목록. 이 파일이 원본이다.
    웹의 편집 모드에서 저장하면 이 파일이 바뀐다. */
 window.SITE = {
- "updated": "2026-10-28",
+ "updated": "2026-11-13",
  "intro": {
   "design": "하고 싶은 말을 꾸밈없이 하고 싶다.",
   "education": "교육에 관심을 갖고 있다. 수요일마다 아이들을 만나고 있다.",
@@ -629,6 +629,115 @@ window.SITE = {
  ],
  "education": [
   {
+   "date": "2026.11.11",
+   "title": "마음에 이름을 붙여줘",
+   "subtitle": "감정 우체통 만들기로 배우는 감정 입자도",
+   "role": "담당 · 네 번째 수업",
+   "summary": "같은 몸의 신호도 뇌가 붙이는 이름에 따라 다른 감정이 된다는 것을 배우고 감정 우체통을 만드는 수업.",
+   "work": "수업 설계 · 슬라이드 제작",
+   "images": [
+    {
+     "src": "emo-01.jpg",
+     "alt": "수업 자료 1 / 22"
+    },
+    {
+     "src": "emo-02.jpg",
+     "alt": "수업 자료 2 / 22"
+    },
+    {
+     "src": "emo-03.jpg",
+     "alt": "수업 자료 3 / 22"
+    },
+    {
+     "src": "emo-04.jpg",
+     "alt": "수업 자료 4 / 22"
+    },
+    {
+     "src": "emo-05.jpg",
+     "alt": "수업 자료 5 / 22"
+    },
+    {
+     "src": "emo-06.jpg",
+     "alt": "수업 자료 6 / 22"
+    },
+    {
+     "src": "emo-07.jpg",
+     "alt": "수업 자료 7 / 22"
+    },
+    {
+     "src": "emo-08.jpg",
+     "alt": "수업 자료 8 / 22"
+    },
+    {
+     "src": "emo-09.jpg",
+     "alt": "수업 자료 9 / 22"
+    },
+    {
+     "src": "emo-10.jpg",
+     "alt": "수업 자료 10 / 22"
+    },
+    {
+     "src": "emo-11.jpg",
+     "alt": "수업 자료 11 / 22"
+    },
+    {
+     "src": "emo-12.jpg",
+     "alt": "수업 자료 12 / 22"
+    },
+    {
+     "src": "emo-13.jpg",
+     "alt": "수업 자료 13 / 22"
+    },
+    {
+     "src": "emo-14.jpg",
+     "alt": "수업 자료 14 / 22"
+    },
+    {
+     "src": "emo-15.jpg",
+     "alt": "수업 자료 15 / 22"
+    },
+    {
+     "src": "emo-16.jpg",
+     "alt": "수업 자료 16 / 22"
+    },
+    {
+     "src": "emo-17.jpg",
+     "alt": "수업 자료 17 / 22"
+    },
+    {
+     "src": "emo-18.jpg",
+     "alt": "수업 자료 18 / 22"
+    },
+    {
+     "src": "emo-19.jpg",
+     "alt": "수업 자료 19 / 22"
+    },
+    {
+     "src": "emo-20.jpg",
+     "alt": "수업 자료 20 / 22"
+    },
+    {
+     "src": "emo-21.jpg",
+     "alt": "수업 자료 21 / 22"
+    },
+    {
+     "src": "emo-22.jpg",
+     "alt": "수업 자료 22 / 22"
+    }
+   ],
+   "plan": [
+    "심장이 뛰고 손에 땀이 나고 얼굴이 뜨거워지는 몸의 신호만 보여 주고 어떤 감정인지 맞혀 보게 한 뒤, 모든 답이 정답이라는 데서 수업을 시작했다.",
+    "뇌를 몸의 소식이 도착하는 우체국에 빗대어 섬엽(창구 직원), 편도체(비상벨), 전전두엽(분류 직원)의 역할을 설명하고, 감정을 '몸의 신호 + 이름'으로 정리했다.",
+    "분류함이 많을수록 편지가 정확한 주소로 가듯 감정 단어가 많을수록 마음을 자세히 나눌 수 있다는 비유로 감정 입자도를 설명하고, 큰 감정·작은 감정·이유를 주소처럼 쓰는 감정 우체통 만들기로 이어지도록 했다."
+   ],
+   "result": [],
+   "next": [],
+   "ko": "마음에 이름을 붙여줘\n감정 우체통 만들기",
+   "en": "Give Your Heart a Name",
+   "introKo": "같은 몸의 신호도 뇌가 붙이는 이름에 따라 다른 감정이 된다는 것을 배우고 감정 입자도의 개념을 익힐 수 있도록 구성했다.\n뇌를 몸의 소식이 도착하는 우체국에 빗대어 섬엽, 편도체, 전전두엽의 역할을 설명하고 감정 우체통 만들기로 이어지도록 했다.",
+   "introEn": "It is structured so that children learn that the same signal from the body can become a different emotion depending on the name the brain gives it, and grasp the concept of emotional granularity.\nThe brain is likened to a post office that receives news from the body, introducing the roles of the insula, the amygdala, and the prefrontal cortex before moving on to making an emotion mailbox."
+  },
+  {
    "date": "2026.10",
    "title": "26년도 상상공방",
    "role": "봉사자",
@@ -652,7 +761,7 @@ window.SITE = {
    "next": [],
    "ko": "26년도 상상공방\nAI 캐릭터 키링 만들기",
    "en": "Sangsang Gongbang 2026",
-   "introKo": "KT&G 복지재단에서 진행하는 상상공방 프로그램에 참여했습니다.\nAI를 활용해서 자신만의 캐릭터를 디자인하고 키링으로 만들어보는 활동을 진행했습니다.",
+   "introKo": "KT&G 복지재단에서 진행하는 상상공방 프로그램에 참여했다.\nAI를 활용해서 자신만의 캐릭터를 디자인하고 키링으로 만들어보는 활동을 진행했다.",
    "introEn": "I took part in Sangsang Gongbang, a program run by the KT&G Welfare Foundation.\nIn this activity, participants used AI to design their own characters and turned them into keyrings."
   },
   {
@@ -772,7 +881,7 @@ window.SITE = {
    "ko": "어둠 속에 숨겨진 비밀\n나무 손전등 만들기",
    "en": "Secrets Hidden in the Dark",
    "introKo": "어두운 숲에 숨은 동물을 찾으며 보호색, 위장색과 의태의 개념을 자연스럽게 학습할 수 있도록 구성했다.\n'숲을 탐험할 거야.'라는 타이틀로 숲에 들어가 친구들을 찾는다는 서사와 미션을 부여했다.",
-   "introEn": "It is structured so that users can naturally learn the concepts of protective coloration, camouflage,\nand mimicry while finding animals hidden in a dark forest. With the title 'I Will Explore the Forest,'\nit assigns a narrative and mission of entering the forest to find friends."
+   "introEn": "It is structured so that users can naturally learn the concepts of protective coloration, camouflage, and mimicry while finding animals hidden in a dark forest.\nWith the title 'I Will Explore the Forest,' it assigns a narrative and mission of entering the forest to find friends."
   },
   {
    "date": "2026.09.30",
@@ -860,7 +969,7 @@ window.SITE = {
    "ko": "소원을 담은 반딧불이 랜턴\n나만의 부호 만들기",
    "en": "Firefly Lanterns That Hold Wishes",
    "introKo": "반딧불이가 빛을 내는 원리와 생존 전략을 배우고 나만의 부호와 반딧불이 랜턴을 만들 수 있도록 구성했다.\n'반딧불이는 왜 빛을 낼까?'라는 질문에서 출발해 천적에게도 스스로를 드러내는 까닭을 함께 찾아보았다.",
-   "introEn": "It is structured so that children learn how fireflies glow and how they survive,\nthen make their own signal and a firefly lantern. Starting from the question 'Why do fireflies glow?',\nwe looked together for the reason they show themselves even to predators."
+   "introEn": "It is structured so that children learn how fireflies glow and how they survive, then make their own signal and a firefly lantern.\nStarting from the question 'Why do fireflies glow?', we looked together for the reason they show themselves even to predators."
   },
   {
    "date": "2026.09.02",
@@ -971,7 +1080,7 @@ window.SITE = {
    "ko": "나를 닮은 행성\n층상구조 키링 만들기",
    "en": "A Planet That Resembles Me",
    "introKo": "지구의 층상 구조를 배우고 그 구조를 본떠 나를 닮은 행성 키링을 만들 수 있도록 구성했다.\n길을 잃은 작은 별의 이야기로 개념 학습과 만들기를 하나의 흐름으로 엮었다.",
-   "introEn": "It is structured so that children learn the layered structure of the Earth\nand make a keyring of a planet that resembles themselves, modeled on that structure.\nThe story of a small lost star ties the concept and the making into one flow."
+   "introEn": "It is structured so that children learn the layered structure of the Earth and make a keyring of a planet that resembles themselves, modeled on that structure.\nThe story of a small lost star ties the concept and the making into one flow."
   }
  ],
  "songs": [

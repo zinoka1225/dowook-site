@@ -111,6 +111,8 @@ img { display: block; max-width: 100%; height: auto; }
 .t30 { --fs: 30; --lh: 50; font-size: calc(30 * var(--p)); line-height: calc(50 * var(--p)); }
 .t28 { --fs: 28; --lh: 50; font-size: calc(28 * var(--p)); line-height: calc(50 * var(--p)); }
 .long { --lh: 48; line-height: calc(48 * var(--p)); }
+/* 설명문의 한 줄(문장)은 한 덩어리: 넘치면 줄 길이를 고르게 나눠 끝에 한 단어만 따로 떨어지지 않게 */
+.long .ln { display: block; text-wrap: balance; }
 
 /* 대지 좌표로 놓기: 세로 글은 글자 네모 왼쪽 위(--x, --y), 가로 글은 왼쪽 끝과 첫 줄 기준선 */
 .at { position: absolute; }

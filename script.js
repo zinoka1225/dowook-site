@@ -19,25 +19,28 @@ const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const brs = (s) => esc(s).replaceAll('\n', '<br>');          // 글 속 \n = 줄바꿈(세로 글에서는 다음 줄)
 // 편집할 수 있는 글 조각: data-edit에 SITE 안의 위치를 적어 둔다 (예: design.0.desc)
+// 설명문(.long): \n으로 나눈 한 줄(문장)을 한 덩어리로 두고, 넘치면 줄 길이를 고르게 나눠 끝에 한 단어만 남지 않게 한다
+const lines = (s, fmt = esc) => String(s ?? '').split('\n').map((t) => `<span class="ln">${t ? fmt(t) : '<br>'}</span>`).join('');
 const ed = (path, text, tag = 'span', cls = '') =>
-  `<${tag}${cls ? ` class="${cls}"` : ''} data-edit="${path}">${brs(text)}</${tag}>`;
+  `<${tag}${cls ? ` class="${cls}"` : ''} data-edit="${path}">${/\blong\b/.test(cls) ? lines(text) : brs(text)}</${tag}>`;
 const getPath = (path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), SITE);
 
 // 설명 속 [글자]는 링크가 된다(그 작업의 첫 링크 주소로). 편집 중에는 [ ]가 그대로 보인다.
-const richHTML = (text, url) => brs(text).replace(/\[([^\]]+)\]/g, (m, t) =>
+const linkify = (html, url) => html.replace(/\[([^\]]+)\]/g, (m, t) =>
   url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${t}</a>` : t);
+const richHTML = (text, url, long) => long ? lines(text, (t) => linkify(esc(t), url)) : linkify(brs(text), url);
 const rich = (path, text, url, tag = 'p', cls = '') =>
-  `<${tag} class="${cls}" data-edit="${path}" data-rich="${esc(url || '')}">${richHTML(text, url)}</${tag}>`;
+  `<${tag} class="${cls}" data-edit="${path}" data-rich="${esc(url || '')}">${richHTML(text, url, /\blong\b/.test(cls))}</${tag}>`;
 function paintRich(editing) {
   document.querySelectorAll('[data-rich]').forEach((el) => {
     const t = getPath(el.dataset.edit) || '';
-    el.innerHTML = editing ? brs(t) : richHTML(t, el.dataset.rich);
+    el.innerHTML = editing ? brs(t) : richHTML(t, el.dataset.rich, el.classList.contains('long'));
   });
   document.querySelectorAll('[data-vt]').forEach((el) => {
     let t = getPath(el.dataset.edit) || '';
     if (el.dataset.flat && !editing) t = t.replace(/\n/g, ' ');   // 고정 제목: 한 줄로 이어 쓰고 길면 알아서 다음 줄로
     el.classList.toggle('v-raw', editing);
-    el.innerHTML = editing ? brs(t) : vt(t, +el.dataset.vt || Infinity);
+    el.innerHTML = editing ? brs(t) : vt(t, +el.dataset.vt || Infinity, !!el.dataset.flat);
   });
 }
 
@@ -49,16 +52,28 @@ const vcell = (ch) => ch === ' ' ? '<i class="sp"></i>'
   : ch === '.' ? '<i class="pd">.</i>'
   : ch === ',' ? '<i class="pd cm">,</i>'
   : /[()[\]{}<>〈〉《》「」『』]/.test(ch) ? `<i class="rt">${esc(ch)}</i>` : `<i>${esc(ch)}</i>`;
-function vt(text, maxEm = Infinity) {
+function vwrap(line, maxEm) {
+  const cols = [];
+  let cur = '', h = 0;
+  for (const word of line.split(' ')) {
+    const add = (cur ? VSP : 0) + vlen(word);
+    if (cur && h + add > maxEm) { cols.push(cur); cur = word; h = vlen(word); }
+    else { cur += (cur ? ' ' : '') + word; h += add; }
+  }
+  cols.push(cur);
+  return cols;
+}
+// balance: 한 줄이 넘쳐 여러 열로 나뉠 때, 열 수는 그대로 두고 열 길이를 고르게(마지막 열에 한두 단어만 남지 않게)
+function vt(text, maxEm = Infinity, balance = false) {
   const cols = [];
   for (const line of String(text ?? '').split('\n')) {
-    let cur = '', h = 0;
-    for (const word of line.split(' ')) {
-      const add = (cur ? VSP : 0) + vlen(word);
-      if (cur && h + add > maxEm) { cols.push(cur); cur = word; h = vlen(word); }
-      else { cur += (cur ? ' ' : '') + word; h += add; }
+    let c = vwrap(line, maxEm);
+    if (balance && c.length > 1) {
+      let lo = Math.max(...line.split(' ').map(vlen)), hi = maxEm;
+      for (let k = 0; k < 20; k++) { const mid = (lo + hi) / 2; if (vwrap(line, mid).length > c.length) lo = mid; else hi = mid; }
+      c = vwrap(line, hi);
     }
-    cols.push(cur);
+    cols.push(...c);
   }
   return cols.map((c) => `<span class="vc">${[...c].map(vcell).join('')}</span>`).join('');
 }
@@ -327,7 +342,8 @@ function blockHTML(bl, w, path, k) {
 
 function setFixed(title, titlePath, en, enPath, back) {
   // 세로 제목이 아래 영문 제목에 닿지 않도록 길면 다음 줄로
-  $('#fix-title').innerHTML = title ? edv(titlePath, title, 'span', 'v v40', portrait.matches ? 38 : 17.5).replace('<span ', '<span data-flat="1" ') : '';
+  const tMax = portrait.matches ? 38 : 17.5;
+  $('#fix-title').innerHTML = title ? `<span data-flat="1" class="v v40" data-edit="${titlePath}" data-vt="${tMax}">${vt(title, tMax, true)}</span>` : '';
   $('#fix-en').innerHTML = en ? ed(enPath, en) : '';
   $('#fix-back').href = back;
 }
