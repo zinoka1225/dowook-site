@@ -50,7 +50,6 @@
 }
 
 html, body { height: 100%; }
-html.snap { scroll-snap-type: y mandatory; }
 body {
   margin: 0;
   background: var(--bg);
@@ -211,7 +210,6 @@ img { display: block; max-width: 100%; height: auto; }
 .hist-row { display: grid; align-items: start; min-height: calc(400 * var(--p)); grid-template-columns: calc(136 * var(--p)) calc(194 * var(--p)) minmax(0, 1fr); }
 .hist-row .v28 { margin-left: calc(-7 * var(--p)); }
 .hist-row .en { margin-top: calc(-10.54 * var(--p)); }
-.view--about .screen { scroll-snap-align: start; }
 /* 나에 대해서는 글자를 Medium으로. 큰 세로 글(나에 대해서 · 뒤로)만 Regular라야 작은 Medium 글자와 무게가 맞는다 */
 .view--about, .view--about :is(p, dt, dd, a, span) { font-weight: 500; }
 .view--about .ab-title, .view--about .ab-title i { font-weight: 400; }
@@ -223,7 +221,6 @@ img { display: block; max-width: 100%; height: auto; }
 .d-text a { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: calc(1.6 * var(--p)); }
 /* 이미지 화면: 블록 하나(또는 슬라이드 4장)가 한 화면. 한 번에 한 화면씩 넘어간다.
    칸 = 가로 357~1669(가운데 1013), 세로 150~862. 세로 제목의 윗선(150)에 맞추고 고정 글자(영문 제목·뒤로)에 닿지 않는다 */
-.view--detail .screen { scroll-snap-align: start; }   /* 소개 화면도 멈추는 자리. 빠지면 들어오자마자 첫 이미지 화면으로 넘어간다 */
 .media {
   position: absolute; left: calc(357 * var(--p)); top: calc(150 * var(--p));
   width: calc(1312 * var(--p)); height: calc(712 * var(--p));
@@ -285,7 +282,6 @@ a.news-hit, button.news-hit { cursor: pointer; }
 .news-tile { left: calc(var(--x) * var(--p)); top: calc(var(--y) * var(--p)); }
 .news-year { --x: 148; --y: 224; }
 .t40 { --fs: 40; --lh: 50; font-size: calc(40 * var(--p)); line-height: calc(50 * var(--p)); }
-.view--news .screen { scroll-snap-align: start; }
 
 .news-open {
   position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
